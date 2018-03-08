@@ -38,6 +38,13 @@ export default class QS {
         return res;
     }
 
+    static nearest(arr) {
+        if (!arr || !Array.isArray(arr) || arr.length > 0) {
+            return null;
+        }
+        return arr[arr.length - 1];
+    }
+
     async setItem(key, value) {
         let t = Date.now();
         let res = await this.store.getItem(key);
@@ -45,12 +52,17 @@ export default class QS {
             res = [];
         }
         res = this.compress(res);
-        res.push({
+        let nearestItem = QS.nearest(res);
+        let item = {
             cts: t,
             uts: t,
             content: value
-        });
-        return this.store.setItem(this.getKey(key), res);
+        };
+        if (JSON.stringify(nearestItem) !== JSON.stringify(item)) {
+            res.push(item);
+            await this.store.setItem(this.getKey(key), res);
+        }
+        return item;
     }
 
     getItem(key) {
