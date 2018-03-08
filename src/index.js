@@ -12,7 +12,8 @@ export default class QS {
         prefix = "",
         suffix = "",
         driver = localforage.INDEXEDDB,
-        beforeUnload
+        beforeUnload,
+        maxLength = 500
     } = {}) {
         this.store = localforage.createInstance({
             name: tableName,
@@ -23,6 +24,7 @@ export default class QS {
         this.prefix = prefix;
         this.suffix = suffix;
         this.beforeUnloadFn = beforeUnload;
+        this.maxLength = maxLength;
     }
 
     getKey(key) {
@@ -30,8 +32,8 @@ export default class QS {
     }
 
     compress(res) {
-        if (res.length > 100) {
-            res = res.slice(res.length - 100);
+        if (res.length > this.maxLength) {
+            res = res.slice(res.length - this.maxLength);
         }
         return res;
     }
