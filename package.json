@@ -1,6 +1,6 @@
 {
     "name": "quit-save",
-    "version": "1.0.2",
+    "version": "1.1.0",
     "description": "Saving data to localStorage or IndexedDB before uninstall the web application",
     "author": "ximing",
     "main": "./dist/index.js",
